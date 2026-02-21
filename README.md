@@ -1,1 +1,51 @@
 # rte-mp-age-calculator
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTE MP Age Calculator 2026-27</title>
+<style>
+body { font-family: Arial,sans-serif; background:#f9fbff; text-align:center; padding:20px;}
+form { max-width:520px; margin:30px auto; padding:25px; border:2px solid #0d6efd; border-radius:12px; background:#fff; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+input[type=date]{ padding:12px; width:100%; border-radius:6px; border:1px solid #ccc; font-size:16px; }
+output{ font-weight:bold; font-size:16px; display:block; margin-top:10px;}
+</style>
+</head>
+<body>
+
+<h3 style="color:#0d6efd;">RTE MP Age Calculator 2026-27</h3>
+<p>Apne bache ki janm tithi select karein aur eligibility turant dekhein</p>
+
+<form id="ageForm">
+<label>Bachay ki Janm Tithi (Date of Birth):</label><br><br>
+<input type="date" id="dob" required><br><br>
+
+<p>1️⃣ Bache ki Umar: <output id="age"></output></p>
+<p>2️⃣ Admission Status: <output id="result" style="color:#27ae60;"></output></p>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    var dobInput = document.getElementById("dob");
+    if(dobInput){
+        dobInput.addEventListener("input", function() {
+            let dobValue = new Date(this.value);
+            let cutoff = new Date('2026-04-01');
+            if (!this.value) return;
+            let years = cutoff.getFullYear() - dobValue.getFullYear();
+            let months = cutoff.getMonth() - dobValue.getMonth();
+            let days = cutoff.getDate() - dobValue.getDate();
+            if(days < 0){ months -= 1; let prevMonth = new Date(cutoff.getFullYear(), cutoff.getMonth(), 0); days += prevMonth.getDate(); }
+            if(months < 0){ years -= 1; months += 12; }
+            document.getElementById("age").value = years + " Years, " + months + " Months, " + days + " Days";
+            let totalYears = years + months/12 + days/365.25;
+            if(totalYears >= 3 && totalYears <= 7){ document.getElementById("result").value = "✅ Admission Ho Sakta Hai"; }
+            else { document.getElementById("result").value = "❌ Admission Nahi Ho Sakta"; }
+        });
+    }
+});
+</script>
+
+</body>
+</html>
